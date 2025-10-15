@@ -1,4 +1,5 @@
 # LoadShedVerification
 
+Code associated with the paper "Maximal Load Shedding Verification for Neural Network Models of AC Line Switching". Code written by Duncan Starkenburg and Sam Chevalier. 
 
-A julia module of the Gurobi > Julia > PyTorch > MathOptAI pipeline by Duncan Starkenburg
+Within this repo...
