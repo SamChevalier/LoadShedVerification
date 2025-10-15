@@ -1,0 +1,4 @@
+*.vscode
+*.Identifier
+Manifest.toml
+*.idea
