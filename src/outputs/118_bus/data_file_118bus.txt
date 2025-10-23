@@ -1,0 +1,53 @@
+# Hyperparams
+alpha_min = 0.25
+alpha_max = 0.85
+perturb_percent = 0.50
+
+# MIPGap percent to use in Gurobi
+mip_gap = 0.05
+solve = solve_ops_perp
+
+epochs = 150
+
+hidden_dim_depth = 
+    32:
+	Total Accuracy Average: 0.0000
+	Branchwise Accuracy Average: 73.6559
+    128:
+	Total Accuracy Average: 0.0000
+	Branchwise Accuracy Average: 62.9032
+    512:
+	Total Accuracy Average: 0.0000
+	Branchwise Accuracy Average: 75.8065
+    2048:
+	Total Accuracy Average: 0.0000
+	Branchwise Accuracy Average: 78.7634
+
+batch_sizes = 1
+
+dropout_percent = 0.2
+
+learn_rate = 1e-4
+
+percent_train = 0.8
+percent_val = 0.1
+percent_test = 0.1
+
+# order of flattened input vector
+[power_risk, qd, pd, alpha]
+
+Sequential(Linear(input_dim, hidden_dim_depth),
+           ReLU(),
+           Dropout(dropout_percent),
+           Linear(hidden_dim_depth, hidden_dim_depth),
+           ReLU(),
+           Dropout(dropout_percent),
+           Linear(hidden_dim_depth, hidden_dim_depth),
+           ReLU(),
+           Dropout(dropout_percent),
+           Linear(hidden_dim_depth, num_branches))
+
+# input data normalization
+mean = torch.mean(torch.stack(x_sample_temp), dim=0)
+std = torch.std(torch.stack(x_sample_temp), dim=0) + 1e-6
+x_sample_temp = [(x - mean) / std for x in x_sample_temp]
