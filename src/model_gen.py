@@ -19,7 +19,8 @@ dropout_percent = 0.2
 
 learn_rate = 1e-4
 
-filename = "data_file_24bus.h5"
+output_filename = "data_file_24bus.h5"
+normalization_filename = "24bus_normalization_values.h5"
 
 percent_train = 0.8
 percent_val = 0.1
@@ -31,7 +32,7 @@ if (percent_test + percent_train + percent_val != 1):
 
 x_sample_temp = []
 y_sample_temp = []
-with h5py.File(filename, "r") as f:
+with h5py.File(output_filename, "r") as f:
     for i in f["sample_data"].keys():
         if i != "num_samples" and i != "index" and len(f["sample_data"][i]["branch"]) == 2:
             temp_power_risk = torch.tensor(np.array(f["sample_data"][i]["branch"]["power_risk"][()]), dtype=torch.float32)
@@ -59,6 +60,12 @@ input_dim = len(x_sample_temp[1])
 mean = torch.mean(torch.stack(x_sample_temp), dim=0)
 std = torch.std(torch.stack(x_sample_temp), dim=0) + 1e-6
 x_sample_temp = [(x - mean) / std for x in x_sample_temp]
+
+with h5py.File(normalization_filename, "w") as f:
+    mean.cpu()
+    std.cpu()
+    f["mean"] = mean.cpu().numpy()
+    f["std"] = std.cpu().numpy()
 
 print(f"# of datapoints = {len(x_sample_temp)}")
 
