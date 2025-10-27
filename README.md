@@ -114,25 +114,25 @@ The following file takes your optimally solved PGLib cases stored in the HDF5 fi
 
 The top of the [`model_gen.py`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py) file, like the two previous files, has several parameters.
 
-`epochs`: The number of Epochs you wish to train the neural network over.
+[`epochs`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L13): The number of Epochs you wish to train the neural network over.
 
-`hidden_dim_depth`: The number of nodes (neurons) in the two hidden, connected layers. *We trained at 32, 128, 512, and 2048 for each case*
+[`hidden_dim_depth`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L15): The number of nodes (neurons) in the two hidden, connected layers. *We trained at 32, 128, 512, and 2048 for each case*
 
-`batch_sizes`: How many samples per training batch. *We used 5 for our 14 and 24 cases, and 1 for our 118 case*
+[`batch_sizes`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L17): How many samples per training batch. *We used 5 for our 14 and 24 cases, and 1 for our 118 case*
 
-`dropout_percent`: Proportion (representing a percentage) of data to drop during training to prevent overfitting. *We trained with 0.2 (20%).*
+[`dropout_percent`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L19): Proportion (representing a percentage) of data to drop during training to prevent overfitting. *We trained with 0.2 (20%).*
 
-`learn_rate`: Step size for learning during training, passed to `torch.optim.Adam` optimizer. *We trained with 1e-4*
+[`learn_rate`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L21): Step size for learning during training, passed to `torch.optim.Adam` optimizer. *We trained with 1e-4*
 
-`output_filename`: In hindsight, this should probably be named input_filename for this program; However, it should MATCH the `output_file` from the previous step. (HDF5 with samples)
+[`output_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L23): In hindsight, this should probably be named input_filename for this program; However, it should MATCH the `output_file` from the previous step. (HDF5 with samples)
 
-`normalization_filename`: Path/name for HDF5 file that will contain the standard deviations and means across the dataset for every pd and qd value. **These values are already corrected for divide-by-zero during normalization by adding 1e-6 to each standard deviation.**
+[`normalization_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L24): Path/name for HDF5 file that will contain the standard deviations and means across the dataset for every pd and qd value. **These values are already corrected for divide-by-zero during normalization by adding 1e-6 to each standard deviation.**
 
-`percent_train`: Proportion (representing a percentage) of samples to be used in training. *We trained with 0.8*
+[`percent_train`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L26): Proportion (representing a percentage) of samples to be used in training. *We trained with 0.8*
 
-`percent_val`: Proportion (representing a percentage) of samples to be used in validation. *We trained with 0.1*
+[`percent_val`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L27): Proportion (representing a percentage) of samples to be used in validation. *We trained with 0.1*
 
-`percent_test` Proportion (representing a percentage) of samples to be used in testing. *We trained with 0.1*
+[`percent_test`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L28): Proportion (representing a percentage) of samples to be used in testing. *We trained with 0.1*
 
 NOTE: `percent_train`, `percent_val`, and `percent_test` should sum to 1 or an error will be thrown during execution!
 
