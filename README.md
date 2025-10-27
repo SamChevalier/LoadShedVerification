@@ -140,13 +140,13 @@ After this file runs, you will be given a .png showing basic training data and .
 
 ```
 model = Sequential(
-            Linear(<input_size> => <hidden_dim_depth)
+            Linear(<input_size> => <hidden_dim_depth>)
             ReLU
             Dropout(<dropout_percentage>)
-            Linear(<hidden_dim_depth> => <hidden_dim_depth)
+            Linear(<hidden_dim_depth> => <hidden_dim_depth>)
             ReLU
             Dropout(<dropout_percentage>)
-            Linear(<hidden_dim_depth> => <hidden_dim_depth)
+            Linear(<hidden_dim_depth> => <hidden_dim_depth>)
             ReLU
             Dropout(<dropout_percentage>)
             Linear(<hidden_dim_depth> => <number_of_branch_decisions>)
