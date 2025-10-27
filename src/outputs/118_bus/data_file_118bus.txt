@@ -11,22 +11,22 @@ GUROBI_SOLVE_DATAFILE.jl
 	# Which PowerModels solving function did we use (line 51)
 	solve = solve_ops_perp
 
-MODEL_GEN.PY
+MODEL_GEN.py
 	epochs = 150
 	
 	hidden_dim_depth = 
 	    32:
-		Total Accuracy Average: 0.0000
-		Branchwise Accuracy Average: 73.6559
+			Total Accuracy Average: 0.0000
+			Branchwise Accuracy Average: 73.6559
 	    128:
-		Total Accuracy Average: 0.0000
-		Branchwise Accuracy Average: 62.9032
+			Total Accuracy Average: 0.0000
+			Branchwise Accuracy Average: 62.9032
 	    512:
-		Total Accuracy Average: 0.0000
-		Branchwise Accuracy Average: 75.8065
+			Total Accuracy Average: 0.0000
+			Branchwise Accuracy Average: 75.8065
 	    2048:
-		Total Accuracy Average: 0.0000
-		Branchwise Accuracy Average: 78.7634
+			Total Accuracy Average: 0.0000
+			Branchwise Accuracy Average: 78.7634
 	
 	batch_sizes = 1
 	
