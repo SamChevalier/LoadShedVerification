@@ -8,7 +8,8 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import pandas as pd
 
-# Hyperparams
+# --- Hyperparams --------------------------------------------------------
+
 epochs = 150
 
 hidden_dim_depth = 2048
@@ -25,6 +26,8 @@ normalization_filename = "24bus_normalization_values.h5"
 percent_train = 0.8
 percent_val = 0.1
 percent_test = 0.1
+
+# ----------------------------------------------------------------------
 
 # Import and format data
 if (percent_test + percent_train + percent_val != 1):
