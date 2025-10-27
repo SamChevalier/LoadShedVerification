@@ -29,31 +29,31 @@ Please make sure Julia 1.10.8 is installed, as this is the version of Julia in w
 julia> VERSION
 v"1.10.8"
 ```
-All Julia library dependencies can be found [here](https://github.com/SamChevalier/LoadShedVerification/blob/7648608c2606c5754a6b2aaa46f4697e49521407/Project.toml).
+All Julia library dependencies can be found [here](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/Project.toml).
 
 A [Gurobi](https://www.gurobi.com/) license will be needed to create your own datasets; however, there are three already available in this repo.
 
 Another small administrative task needed to run this pipeline from start to finish is Python3. We recommend creating a virtual environment dedicated to this repo. Instructions on creating a virtual environment can be found [here](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments).
 
-Before running [`model_gen.py`](https://github.com/SamChevalier/LoadShedVerification/blob/585bc1fa21cbcddc98cc67ce0f4c3fa2c0db33b5/src/model_gen.py) enter into your previously created virtual environment and confirm that PyTorch is installed:
+Before running [`model_gen.py`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py) enter into your previously created virtual environment and confirm that PyTorch is installed:
 ```
 $ source /path/to/your_env_name/bin/activate
 (your_env_name)$ pip install torch
 ```
-Later in the actual verification process, you will need to set [this global parameter](https://github.com/SamChevalier/LoadShedVerification/blob/7648608c2606c5754a6b2aaa46f4697e49521407/grid/run_verification_tests.jl#L17) to point to your virtual environment.
+Later in the actual verification process, you will need to set [this global parameter](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/grid/run_verification_tests.jl#L17) to point to your virtual environment.
 
 ## Create a Datafile
-*Skip this and the next step (Solve Perturbed Cases with Gurobi) if you just want to use our datasets found here: [14bus](https://github.com/SamChevalier/LoadShedVerification/blob/7648608c2606c5754a6b2aaa46f4697e49521407/src/outputs/14_bus/data_file_14bus.h5), [24bus](https://github.com/SamChevalier/LoadShedVerification/blob/7648608c2606c5754a6b2aaa46f4697e49521407/src/outputs/24_bus/data_file_24bus.h5), [118bus](https://github.com/SamChevalier/LoadShedVerification/blob/7648608c2606c5754a6b2aaa46f4697e49521407/src/outputs/118_bus/data_file_118bus.h5).*
+*Skip this and the next step (Solve Perturbed Cases with Gurobi) if you just want to use our datasets found here: [14bus](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/outputs/14_bus/data_file_14bus.h5), [24bus](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/outputs/24_bus/data_file_24bus.h5), [118bus](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/outputs/118_bus/data_file_118bus.h5).*
 
 The following file is used to create an HDF5 file of perturbed case data from the Optimal Power Flow benchmark library provided by the IEEE. In the context of this code, alpha is a scalar value that represents 'overall risk weight'. Essentially, 0 means try and keep all the lines on, 1 means try and turn off all the lines.
 
-In the [`create_datafile.jl`](https://github.com/SamChevalier/LoadShedVerification/blob/585bc1fa21cbcddc98cc67ce0f4c3fa2c0db33b5/src/create_datafile.jl) file, there are several parameters, all at the top of the file.
+In the [`create_datafile.jl`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/create_datafile.jl#L8) file, there are several parameters, all at the top of the file.
 
-[`model_name`](https://github.com/SamChevalier/LoadShedVerification/blob/d2ef45b7edf8eedc7f968d5d2b39e1629d4d5dd3/src/create_datafile.jl#L8): Should be set to the PGLib model you want to verify over. More info about PGLib.jl can be found [here](https://github.com/noahrhodes/PGLib.jl).
+[`model_name`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/create_datafile.jl#L8): Should be set to the PGLib model you want to verify over. More info about PGLib.jl can be found [here](https://github.com/noahrhodes/PGLib.jl).
 
-[`h5write_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/d2ef45b7edf8eedc7f968d5d2b39e1629d4d5dd3/src/create_datafile.jl#L11): The name/path declaration for the file output of this code.
+[`h5write_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/create_datafile.jl#L11): The name/path declaration for the file output of this code.
 
-[`n_data`](https://github.com/SamChevalier/LoadShedVerification/blob/d2ef45b7edf8eedc7f968d5d2b39e1629d4d5dd3/src/create_datafile.jl#L14): How many perturbed datasets you wish to create
+[`n_data`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/create_datafile.jl#L14): How many perturbed datasets you wish to create
 
 [`alpha_min`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/create_datafile.jl#L17): The minimum value for a randomly generated 'alpha' during perturbation. 
 
@@ -80,7 +80,7 @@ NOTE: Although rare, if the program were to quit while Julia still has the HDF5 
 
 [`number_to_solve`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/gurobi_solve_datafile.jl#L27): How many cases in your file you want to solve during this execution of the program, -1 means keep solving until finished. Useful when wanting to solve all the data over the course of different days, etc. The file will always pick up where you left off and continue solving.
 
-Additionally, it should be noted that a less accurate but faster solving function can be implemented [on line 51](https://github.com/SamChevalier/LoadShedVerification/blob/9946ba2bb73e656d1f520fbaee09b796ad6e73a9/src/gurobi_solve_datafile.jl#L51). You can replace it with any of the `solve_` functions in [THIS](https://github.com/noahrhodes/LinearSOC/blob/main/src/prob.jl) repo.
+Additionally, it should be noted that a less accurate but faster solving function can be implemented [on line 51](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/gurobi_solve_datafile.jl#L51). You can replace it with any of the `solve_` functions in [THIS](https://github.com/noahrhodes/LinearSOC/blob/main/src/prob.jl) repo.
 
 After running this file, you will have a completed dataset stored in an HDF5 file. The structure of the file will be:
 
@@ -114,25 +114,25 @@ The following file takes your optimally solved PGLib cases stored in the HDF5 fi
 
 The top of the [`model_gen.py`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py) file, like the two previous files, has several parameters.
 
-[`epochs`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L13): The number of Epochs you wish to train the neural network over.
+[`epochs`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L13): The number of Epochs you wish to train the neural network over.
 
-[`hidden_dim_depth`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L15): The number of nodes (neurons) in the two hidden, connected layers. *We trained at 32, 128, 512, and 2048 for each case*
+[`hidden_dim_depth`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L15): The number of nodes (neurons) in the two hidden, connected layers. *We trained at 32, 128, 512, and 2048 for each case*
 
-[`batch_sizes`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L17): How many samples per training batch. *We used 5 for our 14 and 24 cases, and 1 for our 118 case*
+[`batch_sizes`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L17): How many samples per training batch. *We used 5 for our 14 and 24 cases, and 1 for our 118 case*
 
-[`dropout_percent`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L19): Proportion (representing a percentage) of data to drop during training to prevent overfitting. *We trained with 0.2 (20%).*
+[`dropout_percent`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L19): Proportion (representing a percentage) of data to drop during training to prevent overfitting. *We trained with 0.2 (20%).*
 
-[`learn_rate`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L21): Step size for learning during training, passed to `torch.optim.Adam` optimizer. *We trained with 1e-4*
+[`learn_rate`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L21): Step size for learning during training, passed to `torch.optim.Adam` optimizer. *We trained with 1e-4*
 
-[`output_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L23): In hindsight, this should probably be named input_filename for this program; However, it should MATCH the `output_file` from the previous step. (HDF5 with samples)
+[`output_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L23): In hindsight, this should probably be named input_filename for this program; However, it should MATCH the `output_file` from the previous step. (HDF5 with samples)
 
-[`normalization_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L24): Path/name for HDF5 file that will contain the standard deviations and means across the dataset for every pd and qd value. **These values are already corrected for divide-by-zero during normalization by adding 1e-6 to each standard deviation.**
+[`normalization_filename`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L24): Path/name for HDF5 file that will contain the standard deviations and means across the dataset for every pd and qd value. **These values are already corrected for divide-by-zero during normalization by adding 1e-6 to each standard deviation.**
 
-[`percent_train`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L26): Proportion (representing a percentage) of samples to be used in training. *We trained with 0.8*
+[`percent_train`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L26): Proportion (representing a percentage) of samples to be used in training. *We trained with 0.8*
 
-[`percent_val`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L27): Proportion (representing a percentage) of samples to be used in validation. *We trained with 0.1*
+[`percent_val`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L27): Proportion (representing a percentage) of samples to be used in validation. *We trained with 0.1*
 
-[`percent_test`](https://github.com/SamChevalier/LoadShedVerification/blob/b4b51ca2966210c4803cfa6f444ec0b96d3ff37e/src/model_gen.py#L28): Proportion (representing a percentage) of samples to be used in testing. *We trained with 0.1*
+[`percent_test`](https://github.com/SamChevalier/LoadShedVerification/blob/8ec39387af24e50817c32abb8bf1983eb4abb80f/src/model_gen.py#L28): Proportion (representing a percentage) of samples to be used in testing. *We trained with 0.1*
 
 NOTE: `percent_train`, `percent_val`, and `percent_test` should sum to 1 or an error will be thrown during execution!
 
