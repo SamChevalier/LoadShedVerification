@@ -1,53 +1,58 @@
-# Hyperparams
-alpha_min = 0.25
-alpha_max = 0.85
-perturb_percent = 0.50
+CREATE_DATAFILE.jl
+    # Hyperparams
+    alpha_min = 0.25
+    alpha_max = 0.85
+    perturb_percent = 0.5
 
-# MIPGap percent to use in Gurobi
-mip_gap = 0.01
-solve = solve_ops
+GUROBI_SOLVE_DATAFILE.jl
+    # MIPGap percent to use in Gurobi
+    mip_gap = 0.01
+    
+    # Which PowerModels solving function did we use (line 51)
+    solve = solve_ops
 
-epochs = 150
+MODEL_GEN.PY
+    epochs = 150
+    
+    hidden_dim_depth = 
+        32:
+            Total Accuracy Average: 44.2484
+            Branchwise Accuracy Average: 94.7941
+        128:
+            Total Accuracy Average: 49.8039
+            Branchwise Accuracy Average: 95.3497
+        512:
+            Total Accuracy Average: 47.3856
+            Branchwise Accuracy Average: 94.9412
+        2048:
+            Total Accuracy Average: 42.4183
+            Branchwise Accuracy Average: 94.2843
 
-hidden_dim_depth = 
-    32:
-        Total Accuracy Average: 44.2484
-        Branchwise Accuracy Average: 94.7941
-    128:
-        Total Accuracy Average: 49.8039
-        Branchwise Accuracy Average: 95.3497
-    512:
-        Total Accuracy Average: 47.3856
-        Branchwise Accuracy Average: 94.9412
-    2048:
-        Total Accuracy Average: 42.4183
-        Branchwise Accuracy Average: 94.2843
-
-batch_sizes = 5
-
-dropout_percent = 0.2
-
-learn_rate = 1e-4
-
-percent_train = 0.8
-percent_val = 0.1
-percent_test = 0.1
-
-# order of flattened input vector
-[power_risk, qd, pd, alpha]
-
-Sequential(Linear(input_dim, hidden_dim_depth),
-           ReLU(),
-           Dropout(dropout_percent),
-           Linear(hidden_dim_depth, hidden_dim_depth),
-           ReLU(),
-           Dropout(dropout_percent),
-           Linear(hidden_dim_depth, hidden_dim_depth),
-           ReLU(),
-           Dropout(dropout_percent),
-           Linear(hidden_dim_depth, num_branches))
-
-# input data normalization
-mean = torch.mean(torch.stack(x_sample_temp), dim=0)
-std = torch.std(torch.stack(x_sample_temp), dim=0) + 1e-6
-x_sample_temp = [(x - mean) / std for x in x_sample_temp]
+    batch_sizes = 5
+    
+    dropout_percent = 0.2
+    
+    learn_rate = 1e-4
+    
+    percent_train = 0.8
+    percent_val = 0.1
+    percent_test = 0.1
+    
+    # order of flattened input vector
+    [power_risk, qd, pd, alpha]
+    
+    Sequential(Linear(input_dim, hidden_dim_depth),
+               ReLU(),
+               Dropout(dropout_percent),
+               Linear(hidden_dim_depth, hidden_dim_depth),
+               ReLU(),
+               Dropout(dropout_percent),
+               Linear(hidden_dim_depth, hidden_dim_depth),
+               ReLU(),
+               Dropout(dropout_percent),
+               Linear(hidden_dim_depth, num_branches))
+    
+    # input data normalization
+    mean = torch.mean(torch.stack(x_sample_temp), dim=0)
+    std = torch.std(torch.stack(x_sample_temp), dim=0) + 1e-6
+    x_sample_temp = [(x - mean) / std for x in x_sample_temp]
