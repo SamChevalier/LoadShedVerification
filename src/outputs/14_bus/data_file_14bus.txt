@@ -11,7 +11,7 @@ GUROBI_SOLVE_DATAFILE.jl
     # Which PowerModels solving function did we use (line 51)
     solve = solve_ops
 
-MODEL_GEN.PY
+MODEL_GEN.py
     epochs = 150
     
     hidden_dim_depth = 
