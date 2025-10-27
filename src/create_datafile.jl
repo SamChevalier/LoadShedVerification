@@ -1,7 +1,8 @@
-#----------------------------------------------------------------------
 using LinearSOC
 using PGLib, Random, HDF5
 using JuMP
+
+#----------------------------------------------------------------------
 
 # PGLib model
 model_name = "case118_ieee" 
@@ -16,9 +17,6 @@ n_data = 100000
 alpha_min = 0.25
 alpha_max = 0.85
 perturb_percent = 0.50
-
-# Debug?
-debug = true
 
 #----------------------------------------------------------------------
 data = pglib(model_name)
