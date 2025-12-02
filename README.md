@@ -11,6 +11,10 @@ Code associated with the paper "Maximal Load Shedding Verification for Neural Ne
 
 ## Setup
 To successfully pull this repository in its entirety to the local machine, you will need Git LFS (Large File Storage).
+
+# PLEASE NOTE
+LinearSOC, a library utilized in this package, is a private repo by [Noah Rhodes](https://github.com/noahrhodes). If you wish to recreate this pipeline and use your own data, open an issue request.
+
 Instructions on how to download Git LFS can be found [here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage).
 
 On your local machine, run the following code (NOTE: This repo is roughly 3GB; this may take a second):
